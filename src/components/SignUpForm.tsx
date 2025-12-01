@@ -6,7 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import buscobandaLogo from "@/assets/buscobanda-logo.jpg";
 import { Eye, EyeOff } from "lucide-react";
@@ -209,6 +214,9 @@ export function SignUpForm({
                 >
                   Criar conta
                 </Button>
+                <FieldDescription className="text-center">
+                  Já possui conta? <a href="/login">Login</a>
+                </FieldDescription>
               </Field>
             </FieldGroup>
           </form>
