@@ -31,16 +31,7 @@ export default function Hero() {
                 className="bg-teal-dark text-blue-light hover:bg-teal-light hover:text-blue-dark"
                 asChild
               >
-                <a href="/cadastro">Começar agora</a>
-              </Button>
-
-              {/* Oportunidades */}
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-teal-light text-blue-dark hover:bg-teal-dark hover:bg-teal-light/80"
-              >
-                Ver oportunidades
+                <a href="/signin">Começar agora</a>
               </Button>
             </div>
           </div>

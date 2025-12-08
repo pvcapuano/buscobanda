@@ -4,8 +4,9 @@ import LoginPage from "../pages/LoginPage";
 import SignInPage from "../pages/SignInPage";
 
 export default function AppRoutes() {
+  const basename = import.meta.env.MODE === "production" ? "/buscobanda" : "/";
   return (
-    <BrowserRouter basename="/buscobanda">
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/buscobanda-icon-removebg.png";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,9 +21,9 @@ export default function Navbar() {
               />
             </div>
 
-            <a href="/" className="text-xl font-bold text-blue-light">
+            <Link to="/" className="text-xl font-bold text-blue-light">
               Busco Banda
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Menu */}
@@ -60,7 +61,7 @@ export default function Navbar() {
               asChild
               className="bg-teal-dark text-blue-light hover:bg-teal-light hover:text-blue-dark"
             >
-              <a href="login">Login</a>
+              <Link to="/login">Login</Link>
             </Button>
 
             <Button
@@ -68,11 +69,11 @@ export default function Navbar() {
               asChild
               className="bg-teal-light text-blue-dark hover:bg-teal-dark hover:text-blue-light"
             >
-              <a href="signin">Cadastro</a>
+              <Link to="/signin">Cadastro</Link>
             </Button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 text-blue-light"
@@ -81,6 +82,7 @@ export default function Navbar() {
           </button>
         </div>
 
+        {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 space-y-4">
             <a
@@ -114,7 +116,7 @@ export default function Navbar() {
                 asChild
                 className="bg-teal-dark text-blue-light hover:bg-teal-light hover:text-blue-dark"
               >
-                <a href="login">Login</a>
+                <Link to="/login">Login</Link>
               </Button>
 
               <Button
@@ -122,7 +124,7 @@ export default function Navbar() {
                 asChild
                 className="bg-teal-light text-blue-dark hover:bg-teal-dark hover:text-blue-light"
               >
-                <a href="signin">Cadastro</a>
+                <Link to="/signin">Cadastro</Link>
               </Button>
             </div>
           </div>
