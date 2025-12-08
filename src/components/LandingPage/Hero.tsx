@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import bandImage from "@/assets/band.png";
 
 export default function Hero() {
   return (
@@ -48,7 +49,7 @@ export default function Hero() {
           <div className="relative h-96 md:h-full min-h-[400px] rounded-2xl overflow-hidden bg-black-custom flex items-center justify-center">
             <div
               className="w-full h-full bg-cover bg-center opacity-90"
-              style={{ backgroundImage: "url('/band.png')" }} // funciona no Vite
+              style={{ backgroundImage: `url(${bandImage})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black-custom/70 to-transparent" />
           </div>

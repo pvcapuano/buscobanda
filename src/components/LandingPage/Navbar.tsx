@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/buscobanda-icon-removebg.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,11 +14,12 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center">
               <img
-                src="/src/assets/buscobanda-icon-removebg.png"
+                src={logo}
                 alt="Busco Banda Logo"
                 className="w-10 h-10 object-contain"
               />
             </div>
+
             <a href="/" className="text-xl font-bold text-blue-light">
               Busco Banda
             </a>
@@ -27,52 +29,50 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <a
               href="#inicio"
-              className="text-sm text-blue-medium hover:text-blue-light transition"
+              className="text-sm text-blue-medium hover:text-blue-light"
             >
               Início
             </a>
             <a
               href="#como-funciona"
-              className="text-sm text-blue-medium hover:text-blue-light transition"
+              className="text-sm text-blue-medium hover:text-blue-light"
             >
               Como funciona
             </a>
             <a
               href="#para-quem"
-              className="text-sm text-blue-medium hover:text-blue-light transition"
+              className="text-sm text-blue-medium hover:text-blue-light"
             >
               Para quem é
             </a>
             <a
               href="#contato"
-              className="text-sm text-blue-medium hover:text-blue-light transition"
+              className="text-sm text-blue-medium hover:text-blue-light"
             >
               Contato
             </a>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Auth */}
           <div className="hidden md:flex items-center gap-3">
-            {/* LOGIN */}
             <Button
               size="sm"
               asChild
               className="bg-teal-dark text-blue-light hover:bg-teal-light hover:text-blue-dark"
             >
-              <a href="/login">Login</a>
+              <a href="login">Login</a>
             </Button>
 
-            {/* CADASTRO */}
             <Button
               size="sm"
-              className="bg-teal-light text-blue-dark hover:bg-teal-dark hover:bg-teal-light/80"
               asChild
+              className="bg-teal-light text-blue-dark hover:bg-teal-dark hover:text-blue-light"
             >
-              <a href="/cadastro">Cadastro</a>
+              <a href="signin">Cadastro</a>
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 text-blue-light"
@@ -81,7 +81,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 space-y-4">
             <a
@@ -109,22 +108,21 @@ export default function Navbar() {
               Contato
             </a>
 
-            {/* Mobile Auth Buttons */}
             <div className="flex flex-col gap-2 pt-2">
               <Button
                 size="sm"
                 asChild
                 className="bg-teal-dark text-blue-light hover:bg-teal-light hover:text-blue-dark"
               >
-                <a href="/login">Login</a>
+                <a href="login">Login</a>
               </Button>
 
               <Button
                 size="sm"
-                className="bg-teal-light text-blue-dark hover:bg-teal-dark hover:bg-teal-light/80"
                 asChild
+                className="bg-teal-light text-blue-dark hover:bg-teal-dark hover:text-blue-light"
               >
-                <a href="/cadastro">Cadastro</a>
+                <a href="signin">Cadastro</a>
               </Button>
             </div>
           </div>

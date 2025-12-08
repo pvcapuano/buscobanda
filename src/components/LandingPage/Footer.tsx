@@ -1,4 +1,5 @@
 import { Instagram, Facebook } from "lucide-react";
+import logo from "@/assets/buscobanda-icon-removebg.png";
 
 export default function Footer() {
   const socialLinks = [
@@ -13,11 +14,7 @@ export default function Footer() {
           {/* Logo Section */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img
-                src="/src/assets/buscobanda-icon-removebg.png"
-                alt="Busco Banda"
-                className="w-14 h-10"
-              />
+              <img src={logo} alt="Busco Banda" className="w-14 h-10" />
               <span className="font-bold text-lg text-blue-light">
                 Busco Banda
               </span>
