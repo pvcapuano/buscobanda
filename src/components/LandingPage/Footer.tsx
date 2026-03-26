@@ -1,5 +1,4 @@
 import { Instagram, Facebook } from "lucide-react";
-import logo from "@/assets/buscobanda-icon-removebg.png";
 
 export default function Footer() {
   const socialLinks = [
@@ -8,88 +7,99 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-black-custom border-t border-blue-dark/40">
-      <div className="max-w-7xl mx-auto px-6 py-6">
+    <footer className="bg-cream border-t border-border-warm">
+      <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          {/* Logo Section */}
+          {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Busco Banda" className="w-14 h-10" />
-              <span className="font-bold text-lg text-blue-light">
-                Busco Banda
+            <div className="flex items-center gap-2 mb-4">
+              <img
+                src="/buscobanda-icon-removebg.png"
+                alt="Icon"
+                className="w-10 h-8"
+              />
+              <span
+                className="text-ink tracking-widest"
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: "20px",
+                }}
+              >
+                BUSCO<span className="text-punch">BANDA</span>
               </span>
             </div>
-
-            <p className="text-sm text-blue-light/70">
-              Conectando músicos, bandas e palcos.
+            <p className="text-sm text-muted leading-relaxed">
+              Conectando músicos, bandas e palcos em todo o Brasil.
             </p>
           </div>
 
           {/* Menu */}
           <div>
-            <h4 className="font-semibold mb-4 text-blue-light">Menu</h4>
+            <h4
+              className="text-ink mb-4 tracking-widest uppercase"
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "11px",
+              }}
+            >
+              Menu
+            </h4>
             <ul className="space-y-2">
-              <li>
-                <a
-                  href="#inicio"
-                  className="text-sm text-blue-light/70 hover:text-teal-light transition"
-                >
-                  Início
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#como-funciona"
-                  className="text-sm text-blue-light/70 hover:text-teal-light transition"
-                >
-                  Como funciona
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#para-quem"
-                  className="text-sm text-blue-light/70 hover:text-teal-light transition"
-                >
-                  Para quem é
-                </a>
-              </li>
+              {[
+                { label: "Início", href: "#inicio" },
+                { label: "Como funciona", href: "#como-funciona" },
+                { label: "Para quem é", href: "#para-quem" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-muted hover:text-punch transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Legal */}
           <div>
-            <h4 className="font-semibold mb-4 text-blue-light">Legal</h4>
+            <h4
+              className="text-ink mb-4 tracking-widest uppercase"
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "11px",
+              }}
+            >
+              Legal
+            </h4>
             <ul className="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-blue-light/70 hover:text-teal-light transition"
-                >
-                  Termos de Uso
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contato"
-                  className="text-sm text-blue-light/70 hover:text-teal-light transition"
-                >
-                  Contato
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-blue-light/70 hover:text-teal-light transition"
-                >
-                  Privacidade
-                </a>
-              </li>
+              {[
+                { label: "Termos de Uso", href: "#" },
+                { label: "Privacidade", href: "#" },
+                { label: "Contato", href: "#contato" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-muted hover:text-punch transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Social */}
           <div>
-            <h4 className="font-semibold mb-4 text-blue-light">
+            <h4
+              className="text-ink mb-4 tracking-widest uppercase"
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "11px",
+              }}
+            >
               Redes Sociais
             </h4>
             <div className="flex gap-3">
@@ -98,10 +108,8 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-full border border-blue-dark/40 
-                  flex items-center justify-center 
-                  text-blue-light/70 hover:text-teal-light 
-                  hover:border-teal-light transition"
+                  className="w-10 h-10 rounded border border-border-warm flex items-center justify-center
+                             text-muted hover:text-punch hover:border-punch transition-colors"
                 >
                   <social.icon size={18} />
                 </a>
@@ -110,8 +118,15 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-blue-dark p-4 text-center text-sm text-blue-light/70">
-        <p>© 2025 Busco Banda. Todos os direitos reservados.</p>
+
+      {/* Bottom bar */}
+      <div className="border-t border-border-warm px-6 py-4 text-center">
+        <p
+          className="text-muted"
+          style={{ fontFamily: "'Space Mono', monospace", fontSize: "11px" }}
+        >
+          © 2025 BuscoBanda. Feito com ♪ no Brasil.
+        </p>
       </div>
     </footer>
   );

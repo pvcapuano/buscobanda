@@ -1,83 +1,151 @@
-import { Users, Search, Music } from "lucide-react";
-
 const steps = [
   {
-    icon: Users,
+    num: "01",
     title: "Crie seu perfil",
-    description: "Como músico, banda ou bar. Mostre seu talento e objetivos.",
+    description:
+      "Monte um perfil completo com seus instrumentos, gêneros musicais, localização e disponibilidade.",
   },
   {
-    icon: Search,
-    title: "Procure pessoas",
-    description: "Encontre pessoas compatíveis com seus interesses musicais.",
+    num: "02",
+    title: "Busque e descubra",
+    description:
+      "Use os filtros avançados para encontrar exatamente o que você precisa — músico, banda, estúdio ou bar.",
   },
   {
-    icon: Music,
-    title: "Converse e toque",
-    description: "Combine horários, repertórios e suba no palco juntos.",
+    num: "03",
+    title: "Conecte-se",
+    description:
+      "Entre em contato direto, troque mensagens, compartilhe áudios e marque encontros musicais.",
+  },
+  {
+    num: "04",
+    title: "Toque junto",
+    description:
+      "Forme sua banda, feche shows, reserve estúdios. Tudo dentro da plataforma.",
   },
 ];
 
+/* Mock profile card shown on the right side */
+function MockProfileCard() {
+  return (
+    <div className="bg-ink rounded p-8 relative overflow-hidden min-h-80 flex flex-col justify-center">
+      {/* Diagonal pattern */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.015) 20px, rgba(255,255,255,0.015) 21px)",
+        }}
+      />
+
+      {/* Card */}
+      <div className="relative z-10 bg-white/5 border border-white/10 rounded p-6 max-w-xs">
+        <div className="w-14 h-14 bg-punch rounded-full flex items-center justify-center text-2xl mb-4">
+          🎸
+        </div>
+        <div
+          className="text-cream tracking-wide mb-1"
+          style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "22px" }}
+        >
+          CAIO MENDES
+        </div>
+        <div
+          className="text-gold uppercase tracking-widest mb-4"
+          style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px" }}
+        >
+          ✦ Guitarrista — Rio de Janeiro
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {["Rock", "Blues", "Les Paul", "Disponível"].map((tag) => (
+            <span
+              key={tag}
+              className="bg-white/8 border border-white/10 text-cream/70 px-2 py-1 rounded-sm uppercase tracking-wide"
+              style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px" }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Secondary mini card */}
+      <div className="absolute top-6 right-6 bg-white/5 border border-white/8 rounded p-3">
+        <div
+          className="text-cream"
+          style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "13px" }}
+        >
+          Studio Wave
+        </div>
+        <div
+          className="text-gold/80 uppercase tracking-widest"
+          style={{ fontFamily: "'Space Mono', monospace", fontSize: "9px" }}
+        >
+          ✦ Estúdio — RJ
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function HowItWorks() {
   return (
-    <section id="como-funciona" className="py-24 md:py-32 bg-black-custom">
+    <section id="como-funciona" className="py-24 md:py-32 bg-cream">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Título */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-blue-light">
-            Como funciona?
-          </h2>
-          <p className="text-lg text-blue-medium max-w-2xl mx-auto">
-            Um sistema intuitivo, rápido e gratuito para conectar você com o
-            mundo da música.
-          </p>
-        </div>
+        {/* Header */}
+        <p
+          className="text-punch uppercase tracking-widest mb-3"
+          style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px" }}
+        >
+          // simples assim
+        </p>
+        <h2
+          className="text-ink leading-none mb-16"
+          style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: "clamp(40px, 5vw, 64px)",
+          }}
+        >
+          COMO FUNCIONA
+        </h2>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {steps.map((step, index) => (
-            <div key={index} className="group relative">
-              {/* Hover BG */}
-              <div
-                className="absolute inset-0 bg-gradient-to-br 
-                from-teal-dark/20 
-                to-blue-dark/20 
-                rounded-2xl 
-                opacity-0 group-hover:opacity-100 
-                transition-opacity duration-300"
-              />
-
-              {/* Card */}
-              <div
-                className="relative p-8 rounded-2xl border border-teal-dark/40
-                group-hover:border-blue-medium/70 transition-colors"
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          {/* Steps list */}
+          <ul className="divide-y divide-border-warm">
+            {steps.map((step) => (
+              <li
+                key={step.num}
+                className="flex gap-6 py-7 group cursor-default"
               >
-                {/* Ícone */}
-                <div
-                  className="w-12 h-12 rounded-full bg-blue-dark/40 
-                  flex items-center justify-center mb-6
-                  group-hover:bg-blue-dark/60 transition-colors"
+                <span
+                  className="text-border-warm group-hover:text-punch transition-colors leading-none select-none min-w-[56px]"
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontSize: "48px",
+                  }}
                 >
-                  <step.icon className="w-6 h-6 text-blue-light" />
-                </div>
-
-                {/* Número + título */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="text-3xl font-bold text-blue-medium/70">
-                    {index + 1}
-                  </div>
-                  <h3 className="text-xl font-semibold text-blue-light">
+                  {step.num}
+                </span>
+                <div>
+                  <h3
+                    className="text-ink group-hover:text-punch transition-colors mb-1"
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: "22px",
+                    }}
+                  >
                     {step.title}
                   </h3>
+                  <p className="text-muted text-sm leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
+              </li>
+            ))}
+          </ul>
 
-                {/* Descrição */}
-                <p className="text-blue-medium leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
-            </div>
-          ))}
+          {/* Visual */}
+          <MockProfileCard />
         </div>
       </div>
     </section>

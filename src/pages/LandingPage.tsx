@@ -1,20 +1,26 @@
+import Navbar from "@/components/LandingPage/Navbar";
+import Hero from "@/components/LandingPage/Hero";
+import Ticker from "@/components/LandingPage/Ticker";
+import ForWhom from "@/components/LandingPage/ForWhom";
+import HowItWorks from "@/components/LandingPage/HowItWorks";
 import DreamSection from "@/components/LandingPage/DreamSection";
 import FinalCTA from "@/components/LandingPage/FinalCTA";
 import Footer from "@/components/LandingPage/Footer";
-import ForWhom from "@/components/LandingPage/ForWhom";
-import Hero from "@/components/LandingPage/Hero";
-import HowItWorks from "@/components/LandingPage/HowItWorks";
-import Navbar from "@/components/LandingPage/Navbar";
+import StatsBanner from "@/components/LandingPage/StatsBanner";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="font-sans bg-cream min-h-screen">
       <Navbar />
-      <Hero />
-      <HowItWorks />
-      <ForWhom />
-      <DreamSection />
-      <FinalCTA />
+      <main>
+        <Hero />
+        <Ticker />
+        <StatsBanner />
+        <ForWhom />
+        <HowItWorks />
+        <DreamSection />
+        <FinalCTA />
+      </main>
       <Footer />
     </div>
   );
