@@ -2,232 +2,317 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate, Link } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import buscobandaLogo from "@/assets/buscobanda-logo.jpg";
-import { Eye, EyeOff } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAuth } from "@/contexts/AuthContext";
+import { Logo } from "./Logo";
 
+/* ── Schema ─────────────────────────────────────────────── */
 const signUpSchema = z
   .object({
-    name: z.string().min(2, "Nome inválido"),
-
+    name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
     email: z.string().email("Email inválido"),
-
-    accountType: z.enum(["musico", "bar"]),
-
+    accountType: z.enum(["musico", "banda", "estudio", "bar"], {
+      message: "Selecione um tipo de conta",
+    }),
     password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-
     confirmPassword: z.string().min(6, "Confirme sua senha"),
-
-    acceptPolicy: z.literal(true),
+    acceptPolicy: z.boolean().refine((v) => v === true, {
+      message: "Você deve aceitar os Termos de Uso",
+    }),
   })
-  .refine((data) => data.accountType, {
-    message: "Selecione um tipo de conta",
-    path: ["accountType"],
-  })
-  .refine((data) => data.acceptPolicy === true, {
-    message: "Você deve aceitar a Política de Privacidade",
-    path: ["acceptPolicy"],
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((d) => d.password === d.confirmPassword, {
     message: "As senhas não conferem",
     path: ["confirmPassword"],
   });
 
 type SignUpData = z.infer<typeof signUpSchema>;
 
+/* ── Component ───────────────────────────────────────────── */
 export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignUpData>({
-    resolver: zodResolver(signUpSchema),
-  });
+  const { signUpWithEmail } = useAuth();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  const onSubmit = (data: z.infer<typeof signUpSchema>) => {
-    console.log("Dados enviados:", data);
+  const form = useForm<SignUpData>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      accountType: undefined,
+      password: "",
+      confirmPassword: "",
+      acceptPolicy: false,
+    },
+  });
+
+  async function onSubmit(data: SignUpData) {
+    setAuthError(null);
+    setSuccessMsg(null);
+
+    try {
+      const res = await signUpWithEmail(
+        data.email,
+        data.password,
+        data.accountType,
+      );
+
+      if (res.error) throw res.error;
+
+      setSuccessMsg("Conta criada! Faça login.");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (err: unknown) {
+      setAuthError(
+        err instanceof Error
+          ? err.message
+          : "Erro ao criar conta. Tente novamente.",
+      );
+    }
+  }
+  const monoLabel = {
+    className: "text-ink-soft text-xs uppercase tracking-widest",
+    style: { fontFamily: "'Space Mono', monospace" },
   };
 
   return (
     <div
       className={cn(
-        "flex flex-col gap-6 text-[var(--color-blue-dark)]",
-        className
+        "flex items-center justify-center min-h-screen px-4",
+        className,
       )}
       {...props}
     >
-      <Card className="overflow-hidden p-0">
-        <CardContent className="grid p-0 md:grid-cols-2">
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 md:p-8">
-            <FieldGroup>
-              <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Cadastre-se</h1>
-                <p className="text-muted-foreground text-balance">
-                  Preencha os campos abaixo
-                </p>
-              </div>
+      <Card className="w-full max-w-md shadow-md">
+        <CardContent className="p-8 flex flex-col gap-5">
+          {/* Logo + título */}
+          <div className="flex flex-col items-center text-center gap-2">
+            <Logo className="w-18 h-14" />
 
-              <Field>
-                <FieldLabel htmlFor="name">Nome</FieldLabel>
-                <Input
-                  id="name"
-                  placeholder="Seu nome completo"
-                  {...register("name")}
-                />
-                {errors.name && (
-                  <p className="text-red-600 text-xs">{errors.name.message}</p>
-                )}
-              </Field>
+            <h1 className="text-ink text-2xl tracking-wide">CRIE SUA CONTA</h1>
 
-              <Field>
-                <FieldLabel htmlFor="accountType">Tipo de conta</FieldLabel>
-                <select
-                  id="accountType"
-                  {...register("accountType")}
-                  className="
-                    w-full rounded-md border border-input bg-background px-3 py-2
-                    text-sm focus:outline-none focus:ring-2 focus:ring-ring
-                  "
-                >
-                  <option value="">Selecione...</option>
-                  <option value="musico">Músico</option>
-                  <option value="bar">Bar</option>
-                </select>
-                {errors.accountType && (
-                  <p className="text-red-600 text-xs">
-                    {errors.accountType.message}
-                  </p>
-                )}
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="usuario@email.com"
-                  {...register("email")}
-                />
-                {errors.email && (
-                  <p className="text-red-600 text-xs">{errors.email.message}</p>
-                )}
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="password">Senha</FieldLabel>
-
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    {...register("password")}
-                  />
-
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-
-                {errors.password && (
-                  <p className="text-red-600 text-xs">
-                    {errors.password.message}
-                  </p>
-                )}
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="confirmPassword">
-                  Confirmar senha
-                </FieldLabel>
-
-                <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirm ? "text" : "password"}
-                    placeholder="••••••••"
-                    {...register("confirmPassword")}
-                  />
-
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
-                    onClick={() => setShowConfirm((prev) => !prev)}
-                  >
-                    {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-
-                {errors.confirmPassword && (
-                  <p className="text-red-600 text-xs">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
-              </Field>
-
-              <Field>
-                <label className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    {...register("acceptPolicy")}
-                    className="w-4 h-4"
-                  />
-                  <span>
-                    Eu aceito os{" "}
-                    <a href="#" className="underline font-medium">
-                      Termos de uso
-                    </a>
-                  </span>
-                </label>
-
-                {errors.acceptPolicy && (
-                  <p className="text-red-600 text-xs">
-                    {errors.acceptPolicy.message}
-                  </p>
-                )}
-              </Field>
-
-              <Field>
-                <Button
-                  type="submit"
-                  className="bg-[var(--color-blue-dark)] text-white hover:bg-[var(--color-teal-dark)]"
-                >
-                  Criar conta
-                </Button>
-                <FieldDescription className="text-center">
-                  Já possui conta? <a href="/login">Login</a>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-
-          <div className="bg-muted relative hidden md:block">
-            <img
-              src={buscobandaLogo}
-              alt="Logo Busco Banda"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
+            <p className="text-muted text-sm">
+              Junte-se à cena musical brasileira
+            </p>
           </div>
+
+          {/* Feedback */}
+          {authError && <div className="text-red-700 text-sm">{authError}</div>}
+
+          {successMsg && (
+            <div className="text-green-700 text-sm">{successMsg}</div>
+          )}
+
+          {/* Form */}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-4"
+            >
+              {/* Nome */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel {...monoLabel}>Nome</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Tipo */}
+              <FormField
+                control={form.control}
+                name="accountType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel {...monoLabel}>Tipo de conta</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione..." />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md z-50">
+                        <SelectItem
+                          value="musico"
+                          className="py-2 text-sm cursor-pointer hover:bg-gray-100 transition-colors"
+                        >
+                          Músico
+                        </SelectItem>
+
+                        <SelectItem
+                          value="banda"
+                          className="py-2 text-sm cursor-pointer hover:bg-gray-100 transition-colors"
+                        >
+                          Banda
+                        </SelectItem>
+
+                        <SelectItem
+                          value="estudio"
+                          className="py-2 text-sm cursor-pointer hover:bg-gray-100 transition-colors"
+                        >
+                          Estúdio
+                        </SelectItem>
+
+                        <SelectItem
+                          value="bar"
+                          className="py-2 text-sm cursor-pointer hover:bg-gray-100 transition-colors"
+                        >
+                          Bar
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Email */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel {...monoLabel}>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Senha */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel {...monoLabel}>Senha</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          {...field}
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-3 top-1/2 -translate-y-1/2"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                        >
+                          {showPassword ? (
+                            <EyeOff size={16} />
+                          ) : (
+                            <Eye size={16} />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Confirmar */}
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel {...monoLabel}>Confirmar senha</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showConfirm ? "text" : "password"}
+                          {...field}
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-3 top-1/2 -translate-y-1/2"
+                          onClick={() => setShowConfirm((prev) => !prev)}
+                        >
+                          {showConfirm ? (
+                            <EyeOff size={16} />
+                          ) : (
+                            <Eye size={16} />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Checkbox */}
+              <FormField
+                control={form.control}
+                name="acceptPolicy"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-xs">Aceito os termos</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                className="border border-border-warm bg-punch text-white hover:bg-cream hover:text-ink hover:border-ink transition-colors w-full mt-4"
+              >
+                {form.formState.isSubmitting ? "Criando..." : "Criar conta"}
+              </Button>
+            </form>
+          </Form>
+
+          {/* Footer */}
+          <p className="text-center text-xs">
+            Já tem conta?{" "}
+            <Link to="/login" className="underline">
+              Fazer login
+            </Link>
+          </p>
         </CardContent>
       </Card>
     </div>
