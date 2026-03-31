@@ -47,6 +47,8 @@ export interface Musico {
   spotify?: string;
   demos?: string[]; // URLs de áudio/vídeo
   criadoEm: string; // ISO date
+  facebook?: string;
+  whatsapp?: string;
 }
 
 /* ── Banda ─────────────────────────────────────────────── */

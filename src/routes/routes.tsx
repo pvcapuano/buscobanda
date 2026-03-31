@@ -11,6 +11,7 @@ import BaresPage from "@/pages/BaresPage";
 import EstudiosPage from "@/pages/EstudiosPage";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import EventosPage from "@/pages/Eventospage";
+import MusicoDetail from "@/components/MusicoDetail";
 
 export default function AppRoutes() {
   return (
@@ -27,6 +28,7 @@ export default function AppRoutes() {
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<DashboardHome />} />
               <Route path="musicos" element={<MusicosPage />} />
+              <Route path="musicos/:id" element={<MusicoDetail />} />
               <Route path="bandas" element={<BandasPage />} />
               <Route path="bares" element={<BaresPage />} />
               <Route path="estudios" element={<EstudiosPage />} />
