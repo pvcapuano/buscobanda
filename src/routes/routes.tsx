@@ -10,6 +10,7 @@ import BandasPage from "@/pages/BandasPage";
 import BaresPage from "@/pages/BaresPage";
 import EstudiosPage from "@/pages/EstudiosPage";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
+import EventosPage from "@/pages/Eventospage";
 
 export default function AppRoutes() {
   return (
@@ -29,6 +30,7 @@ export default function AppRoutes() {
               <Route path="bandas" element={<BandasPage />} />
               <Route path="bares" element={<BaresPage />} />
               <Route path="estudios" element={<EstudiosPage />} />
+              <Route path="eventos" element={<EventosPage />} />
             </Route>
           </Route>
 

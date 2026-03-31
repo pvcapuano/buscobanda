@@ -1,3 +1,5 @@
+import type { User } from "@supabase/supabase-js";
+
 /* ── Enums / literais ──────────────────────────────────── */
 
 export type Instrumento =
@@ -101,3 +103,17 @@ export interface FeedItem {
   tipo: FeedItemTipo;
   data: Musico | Banda;
 }
+
+export type AuthUser = User;
+
+export interface SidebarContentProps {
+  user: AuthUser | null;
+  setSidebarOpen: (value: boolean) => void;
+  handleSignOut: () => void;
+}
+
+export interface MobileTopbarProps {
+  handleSignOut: () => void;
+}
+
+export interface BottomNavProps {}
